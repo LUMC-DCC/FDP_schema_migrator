@@ -1,0 +1,156 @@
+PREFIX dcat:      <http://www.w3.org/ns/dcat#>
+PREFIX dct:       <http://purl.org/dc/terms/>
+PREFIX foaf:      <http://xmlns.com/foaf/0.1/>
+PREFIX prov:      <http://www.w3.org/ns/prov#>
+PREFIX vcard:     <http://www.w3.org/2006/vcard/ns#>
+PREFIX dcatap:    <http://data.europa.eu/r5r/>
+PREFIX health:    <http://healthdataportal.eu/ns/health#>
+
+CONSTRUCT {
+
+  #################################################################
+  # DATASET
+  #################################################################
+
+  ?dataset
+      a dcat:Dataset ;
+      dct:title ?title ;
+      dct:description ?description ;
+      dct:identifier ?identifier ;
+      dct:issued ?issued ;
+      dct:modified ?now ;
+      dct:accessRights ?accessRights ;
+      dct:language ?language ;
+      dcat:theme ?theme ;
+      dcat:keyword ?keyword ;
+      dct:conformsTo ?conformsTo ;
+      dcat:contactPoint ?contactPoint ;
+      foaf:page ?page ;
+      dct:isReferencedBy ?publication ;
+      dct:creator ?lumc ;
+      dct:publisher ?lumc ;
+      dcatap:applicableLegislation
+          <http://data.europa.eu/eli/reg/2025/327/oj> ;
+      prov:qualifiedAttribution ?attribution .
+
+  #################################################################
+  # LUMC ORGANIZATION
+  #################################################################
+
+  ?lumc
+      a foaf:Agent ;
+      dct:identifier "https://ror.org/05xvt9f17" ;
+      foaf:name
+          "Leiden University Medical Center"@en ,
+          "Leids Universitair Medisch Centrum"@nl ;
+      health:publisherNote
+          "Het Leids Universitair Medisch Centrum (LUMC) is een universitair medisch centrum (umc). Wij hebben een actieve en innovatieve rol in de gezondheidszorg: regionaal, nationaal en internationaal. Dat is terug te zien in onze 3 kerntaken: patiëntenzorg, wetenschappelijk onderzoek en het opleiden van zorgprofessionals (onderwijs)."@nl ;
+      health:publisherType
+          <http://purl.org/adms/publishertype/Academia-ScientificOrganisation> ;
+      dct:spatial
+          <http://publications.europa.eu/resource/authority/country/NLD> ;
+      foaf:homepage
+          <https://www.lumc.nl/> ;
+      foaf:mbox
+          <mailto:lucid@lumc.nl> .
+
+  #################################################################
+  # QUALIFIED ATTRIBUTIONS
+  #################################################################
+
+  ?attribution
+      a prov:Attribution ;
+      prov:agent ?author ;
+      dcat:hadRole ?role .
+
+  ?author
+      a foaf:Agent ;
+      dct:identifier ?authorId ;
+      foaf:name ?authorName .
+
+  ?author foaf:homepage ?authorHomepage .
+  ?author foaf:mbox ?authorEmail .
+
+  #################################################################
+  # CONTACT POINT
+  #################################################################
+
+  ?contactPoint
+      a vcard:Kind ;
+      vcard:fn ?contactName ;
+      vcard:hasEmail ?contactEmail .
+
+}
+WHERE {
+
+  ?dataset a dcat:Dataset .
+
+  BIND(NOW() AS ?now)
+
+  BIND(
+      IRI(CONCAT(STR(?dataset), "/organization/lumc"))
+      AS ?lumc
+  )
+
+  OPTIONAL { ?dataset dct:title ?title }
+  OPTIONAL { ?dataset dct:description ?description }
+  OPTIONAL { ?dataset dct:identifier ?identifier }
+  OPTIONAL { ?dataset dct:issued ?issued }
+
+  OPTIONAL { ?dataset dct:accessRights ?accessRights }
+  OPTIONAL { ?dataset dct:language ?language }
+  OPTIONAL { ?dataset dcat:theme ?theme }
+  OPTIONAL { ?dataset dcat:keyword ?keyword }
+
+  OPTIONAL { ?dataset dct:conformsTo ?conformsTo }
+  OPTIONAL { ?dataset foaf:page ?page }
+  OPTIONAL { ?dataset dct:isReferencedBy ?publication }
+
+  OPTIONAL {
+      ?dataset dcat:contactPoint ?contactPoint .
+
+      OPTIONAL { ?contactPoint vcard:fn ?contactName }
+      OPTIONAL { ?contactPoint vcard:hasEmail ?contactEmail }
+  }
+
+  OPTIONAL {
+
+      ?dataset dct:creator ?author .
+
+      ?author
+          dct:identifier ?authorId ;
+          foaf:name ?authorName .
+
+      OPTIONAL { ?author foaf:homepage ?authorHomepage }
+      OPTIONAL { ?author foaf:mbox ?authorEmail }
+
+      BIND(
+          IRI(
+              CONCAT(
+                  STR(?dataset),
+                  "/attribution/",
+                  ENCODE_FOR_URI(
+                      REPLACE(
+                          STR(?authorId),
+                          "^https://orcid.org/",
+                          ""
+                      )
+                  )
+              )
+          )
+          AS ?attribution
+      )
+
+      BIND(
+          IF(
+              ?authorId IN (
+                  "https://orcid.org/0000-0002-1397-0992",
+                  "https://orcid.org/0000-0003-2530-6260"
+              ),
+              <https://w3id.org/credit/role#PrincipalInvestigator>,
+              <https://w3id.org/credit/role#Collaborator>
+          )
+          AS ?role
+      )
+  }
+}

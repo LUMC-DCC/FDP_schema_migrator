@@ -1,0 +1,68 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ldp: <http://www.w3.org/ns/ldp#> .
+@prefix ns1: <http://semanticscience.org/resource/> .
+@prefix ns2: <https://w3id.org/fdp/fdp-o#> .
+@prefix ns3: <http://www.w3.org/2006/vcard/ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://fdp.lumc.nl/distribution/> a ldp:DirectContainer ;
+    dcterms:title "Distributions" ;
+    ldp:hasMemberRelation dcat:distribution ;
+    ldp:membershipResource <https://fdp.lumc.nl/dataset/d8a00375-c0e8-45cd-a931-dea7481c1fed> .
+
+<https://fdp.lumc.nl/dataset/d8a00375-c0e8-45cd-a931-dea7481c1fed> a dcat:Dataset ;
+    rdfs:label "COMODULATE Lab results LUMC" ;
+    dcterms:accessRights <http://publications.europa.eu/resource/authority/access-right/RESTRICTED> ;
+    dcterms:conformsTo <https://fdp.lumc.nl/profile/2f08228e-1789-40f8-84cd-28e3288c3604> ;
+    dcterms:creator [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0002-4835-1032" ;
+            foaf:homepage <https://www.lumc.nl/en/afdelingen/lucid/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Simon P. Jochems" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0003-2530-6260" ;
+            foaf:homepage <https://www.lumc.nl/en/afdelingen/lucid/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Jutte J.C. de Vries, Principal Investigator " ] ;
+    dcterms:description "COMODULATE Lab results LUMC: Research laboratory data of the LUMC COMODULATE cohort. Retrospective observational non-WMO study including COVID-19 and Influenza patients with and without ARDS from 2019 to 2024. Host transcriptomics and inflammatory proteomics variables were measured in respiratory samples. Principle Investigator, Jutte JC de Vries, LUCID. Website: https://w3id.org/lumc/lucid/comodulate_labmeasurements " ;
+    dcterms:identifier "https://w3id.org/lumc/lucid/comodulate_labmeasurements" ;
+    dcterms:isPartOf <https://fdp.lumc.nl/catalog/cdb5bca2-30f1-4747-9cc6-367ab8a6b46b> ;
+    dcterms:isReferencedBy <https://projecten.zonmw.nl/nl/project/personalised-targeted-immunomodulation-patients-ards-related-covid19-and-future-pandemic> ;
+    dcterms:issued "2025-04-04T00:00:00+00:00"^^xsd:dateTime ;
+    dcterms:language <http://id.loc.gov/vocabulary/iso639-1/en> ;
+    dcterms:license <http://example.org/niet-open> ;
+    dcterms:modified "2025-04-04T00:00:00+00:00"^^xsd:dateTime ;
+    dcterms:publisher [ a foaf:Agent ;
+            dcterms:identifier "https://ror.org/05xvt9f17" ;
+            foaf:homepage <https://www.lumc.nl/en/afdelingen/lucid/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Leiden University Medical Center, the Netherlands" ] ;
+    dcterms:title "COMODULATE Lab results LUMC" ;
+    ns1:SIO_000628 <https://fdp.lumc.nl/dataset/d8a00375-c0e8-45cd-a931-dea7481c1fed/metrics/445c0a70d1e214e545b261559e2842f4>,
+        <https://fdp.lumc.nl/dataset/d8a00375-c0e8-45cd-a931-dea7481c1fed/metrics/5d27e854a9e78eb3f663331cd47cdc13> ;
+    dcat:contactPoint [ a ns3:Kind ;
+            ns3:fn "Jutte J.C. de Vries,  Principle Investigator, Dept. LUCID, https://orcid.org/0000-0003-2530-6260" ;
+            ns3:hasEmail <mailto:lucid@lumc.nl> ] ;
+    dcat:keyword "COVID-19",
+        "Influenza",
+        "transcriptomics" ;
+    dcat:theme <http://publications.europa.eu/resource/authority/data-theme/HEAL> ;
+    foaf:page <https://projecten.zonmw.nl/nl/project/personalised-targeted-immunomodulation-patients-ards-related-covid19-and-future-pandemic> ;
+    ns2:metadataIdentifier <https://fdp.lumc.nl/dataset/d8a00375-c0e8-45cd-a931-dea7481c1fed#identifier> ;
+    ns2:metadataIssued "2025-04-08T11:23:14.370000+00:00"^^xsd:dateTime ;
+    ns2:metadataModified "2025-05-28T08:23:41.372000+00:00"^^xsd:dateTime .
+
+<https://fdp.lumc.nl/dataset/d8a00375-c0e8-45cd-a931-dea7481c1fed#identifier> a <http://purl.org/spar/datacite/Identifier> ;
+    dcterms:identifier "https://fdp.lumc.nl/dataset/d8a00375-c0e8-45cd-a931-dea7481c1fed" .
+
+<https://fdp.lumc.nl/dataset/d8a00375-c0e8-45cd-a931-dea7481c1fed/metrics/445c0a70d1e214e545b261559e2842f4> ns1:SIO_000332 <https://www.ietf.org/rfc/rfc3986.txt> ;
+    ns1:SIO_000628 <https://www.ietf.org/rfc/rfc3986.txt> .
+
+<https://fdp.lumc.nl/dataset/d8a00375-c0e8-45cd-a931-dea7481c1fed/metrics/5d27e854a9e78eb3f663331cd47cdc13> ns1:SIO_000332 <https://www.wikidata.org/wiki/Q8777> ;
+    ns1:SIO_000628 <https://www.wikidata.org/wiki/Q8777> .
+
+<https://fdp.lumc.nl/profile/2f08228e-1789-40f8-84cd-28e3288c3604> rdfs:label "Dataset Profile" .
+

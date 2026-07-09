@@ -1,0 +1,57 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ldp: <http://www.w3.org/ns/ldp#> .
+@prefix ns1: <http://semanticscience.org/resource/> .
+@prefix ns2: <https://w3id.org/fdp/fdp-o#> .
+@prefix ns3: <http://www.w3.org/2006/vcard/ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://fdp.lumc.nl/dataset/> a ldp:DirectContainer ;
+    dcterms:title "Datasets" ;
+    ldp:contains <https://fdp.lumc.nl/dataset/d8a00375-c0e8-45cd-a931-dea7481c1fed> ;
+    ldp:hasMemberRelation dcat:dataset ;
+    ldp:membershipResource <https://fdp.lumc.nl/catalog/cdb5bca2-30f1-4747-9cc6-367ab8a6b46b> .
+
+<https://fdp.lumc.nl/catalog/cdb5bca2-30f1-4747-9cc6-367ab8a6b46b> a dcat:Catalog ;
+    rdfs:label "COMODULATE COVID INFLUENZA cohort LUMC" ;
+    dcterms:accessRights <https://fdp.lumc.nl/catalog/cdb5bca2-30f1-4747-9cc6-367ab8a6b46b#accessRights> ;
+    dcterms:conformsTo <https://fdp.lumc.nl/profile/a0949e72-4466-4d53-8900-9436d1049a4b> ;
+    dcterms:description "Research laboratory data of the LUMC COMODULATE cohort. Retrospective observational non-WMO study including COVID-19 and Influenza patients with and without ARDS from 2019 to 2024. Host transcriptomics and inflammatory proteomics variables were measured in respiratory samples. Principle Investigator, Jutte JC de Vries, LUCID" ;
+    dcterms:isPartOf <https://fdp.lumc.nl> ;
+    dcterms:issued "2025-04-08T11:23:12.949000+00:00"^^xsd:dateTime ;
+    dcterms:language <http://id.loc.gov/vocabulary/iso639-1/en> ;
+    dcterms:license <http://rdflicense.appspot.com/rdflicense/cc-by-nc-nd3.0> ;
+    dcterms:modified "2025-04-08T11:23:12.949000+00:00"^^xsd:dateTime ;
+    dcterms:publisher [ a foaf:Agent ;
+            dcterms:identifier "https://ror.org/05xvt9f17" ;
+            foaf:homepage <https://www.lumc.nl/en/afdelingen/lucid/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Leiden University Medical Center, the Netherlands" ] ;
+    dcterms:title "COMODULATE COVID INFLUENZA cohort LUMC" ;
+    ns1:SIO_000628 <https://fdp.lumc.nl/catalog/cdb5bca2-30f1-4747-9cc6-367ab8a6b46b/metrics/445c0a70d1e214e545b261559e2842f4>,
+        <https://fdp.lumc.nl/catalog/cdb5bca2-30f1-4747-9cc6-367ab8a6b46b/metrics/5d27e854a9e78eb3f663331cd47cdc13> ;
+    dcat:contactPoint [ a ns3:Kind ;
+            ns3:fn "Jutte J.C. de Vries,  Principle Investigator, Dept. LUCID, https://orcid.org/0000-0003-2530-6260" ;
+            ns3:hasEmail <mailto:lucid@lumc.nl> ] ;
+    dcat:dataset <https://fdp.lumc.nl/dataset/d8a00375-c0e8-45cd-a931-dea7481c1fed> ;
+    dcat:themeTaxonomy <http://publications.europa.eu/resource/authority/data-theme/HEAL> ;
+    ns2:metadataIdentifier <https://fdp.lumc.nl/catalog/cdb5bca2-30f1-4747-9cc6-367ab8a6b46b#identifier> ;
+    ns2:metadataIssued "2025-04-08T11:23:12.949000+00:00"^^xsd:dateTime ;
+    ns2:metadataModified "2025-05-28T08:23:41.540000+00:00"^^xsd:dateTime .
+
+<https://fdp.lumc.nl/catalog/cdb5bca2-30f1-4747-9cc6-367ab8a6b46b#accessRights> a dcterms:RightsStatement ;
+    dcterms:description "This resource has no access restriction" .
+
+<https://fdp.lumc.nl/catalog/cdb5bca2-30f1-4747-9cc6-367ab8a6b46b#identifier> a <http://purl.org/spar/datacite/Identifier> ;
+    dcterms:identifier "https://fdp.lumc.nl/catalog/cdb5bca2-30f1-4747-9cc6-367ab8a6b46b" .
+
+<https://fdp.lumc.nl/catalog/cdb5bca2-30f1-4747-9cc6-367ab8a6b46b/metrics/445c0a70d1e214e545b261559e2842f4> ns1:SIO_000332 <https://www.ietf.org/rfc/rfc3986.txt> ;
+    ns1:SIO_000628 <https://www.ietf.org/rfc/rfc3986.txt> .
+
+<https://fdp.lumc.nl/catalog/cdb5bca2-30f1-4747-9cc6-367ab8a6b46b/metrics/5d27e854a9e78eb3f663331cd47cdc13> ns1:SIO_000332 <https://www.wikidata.org/wiki/Q8777> ;
+    ns1:SIO_000628 <https://www.wikidata.org/wiki/Q8777> .
+
+<https://fdp.lumc.nl/profile/a0949e72-4466-4d53-8900-9436d1049a4b> rdfs:label "Catalog Profile" .
+

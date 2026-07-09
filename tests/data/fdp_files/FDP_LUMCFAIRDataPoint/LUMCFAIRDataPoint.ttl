@@ -1,0 +1,72 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ldp: <http://www.w3.org/ns/ldp#> .
+@prefix ns1: <https://w3id.org/fdp/fdp-o#> .
+@prefix ns2: <http://semanticscience.org/resource/> .
+@prefix ns3: <http://www.re3data.org/schema/3-0#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://fdp.lumc.nl/catalog/> a ldp:DirectContainer ;
+    dcterms:title "Catalogs" ;
+    ldp:contains <https://fdp.lumc.nl/catalog/cbf5dcc7-10a0-4e5c-bcd4-bc7e1702a495>,
+        <https://fdp.lumc.nl/catalog/cdb5bca2-30f1-4747-9cc6-367ab8a6b46b>,
+        <https://fdp.lumc.nl/study/55e88b65-df38-4575-8202-11325736da51> ;
+    ldp:hasMemberRelation ns1:metadataCatalog ;
+    ldp:membershipResource <https://fdp.lumc.nl> .
+
+<https://fdp.lumc.nl/study/> a ldp:DirectContainer ;
+    dcterms:title "Studies" ;
+    ldp:contains <https://fdp.lumc.nl/catalog/cbf5dcc7-10a0-4e5c-bcd4-bc7e1702a495>,
+        <https://fdp.lumc.nl/catalog/cdb5bca2-30f1-4747-9cc6-367ab8a6b46b>,
+        <https://fdp.lumc.nl/study/55e88b65-df38-4575-8202-11325736da51> ;
+    ldp:hasMemberRelation ns1:metadataCatalog ;
+    ldp:membershipResource <https://fdp.lumc.nl> .
+
+<https://fdp.lumc.nl#accessRights> a dcterms:RightsStatement ;
+    dcterms:description "This resource has no access restriction" .
+
+<https://fdp.lumc.nl#publisher> a foaf:Agent ;
+    foaf:name "Default Publisher" .
+
+<https://fdp.lumc.nl/metrics/445c0a70d1e214e545b261559e2842f4> ns2:SIO_000332 <https://www.ietf.org/rfc/rfc3986.txt> ;
+    ns2:SIO_000628 <https://www.ietf.org/rfc/rfc3986.txt> .
+
+<https://fdp.lumc.nl/metrics/5d27e854a9e78eb3f663331cd47cdc13> ns2:SIO_000332 <https://www.wikidata.org/wiki/Q8777> ;
+    ns2:SIO_000628 <https://www.wikidata.org/wiki/Q8777> .
+
+<https://fdp.lumc.nl/profile/77aaad6a-0136-4c6e-88b9-07ffccd0ee4c> rdfs:label "FAIR Data Point Profile" .
+
+<https://fdp.lumc.nl#identifier> a <http://purl.org/spar/datacite/Identifier> ;
+    dcterms:identifier "https://fdp.lumc.nl" .
+
+<https://fdp.lumc.nl> a dcat:DataService,
+        dcat:Resource,
+        ns1:FAIRDataPoint,
+        ns1:MetadataService ;
+    rdfs:label "LUMC FAIR Data Point" ;
+    dcterms:accessRights <https://fdp.lumc.nl#accessRights> ;
+    dcterms:conformsTo <https://fdp.lumc.nl/profile/77aaad6a-0136-4c6e-88b9-07ffccd0ee4c> ;
+    dcterms:description """This is the FAIR Data Point (FDP) of the Leiden University Medical Center (LUMC). It provides machine actionable metadata describing resources hosted by the LUMC. The primary objective of the FDP is to enable automated applications. The User Interface provides a minimal access point for manual inspection of the metadata. Please switch to Advanced mode and open the RDF version of the FDP to explore the metadata for machines. 
+
+More resource descriptions are currently under construction. Once they are sufficiently complete and validated they appear in this FDP. 
+
+Background: The LUMC FAIR Data Point is a metadata provisioning service, implemented conform to the FAIR Data Point specifications version 1.2 (https://specs.fairdatapoint.org/v1.2). For more information about FDPs see L.O. da Silva Santos, K. Burger, R. Kaliyaperumal, M. D. Wilkinson; FAIR Data Point: A FAIR-Oriented Approach for Metadata Publication. Data Intelligence 2023; 5 (1): 163â183. doi: https://doi.org/10.1162/dint_a_00160""" ;
+    dcterms:hasVersion "1.0" ;
+    dcterms:language <http://id.loc.gov/vocabulary/iso639-1/en> ;
+    dcterms:license <https://creativecommons.org/licenses/by-nc-nd/4.0/> ;
+    dcterms:publisher <https://fdp.lumc.nl#publisher> ;
+    dcterms:title "LUMC FAIR Data Point" ;
+    ns2:SIO_000628 <https://fdp.lumc.nl/metrics/445c0a70d1e214e545b261559e2842f4>,
+        <https://fdp.lumc.nl/metrics/5d27e854a9e78eb3f663331cd47cdc13> ;
+    ns3:repositoryIdentifier <https://fdp.lumc.nl#identifier> ;
+    dcat:endpointURL <https://fdp.lumc.nl> ;
+    ns1:fdpSoftwareVersion "FDP:v1.16.2~51911d6" ;
+    ns1:metadataCatalog <https://fdp.lumc.nl/catalog/cbf5dcc7-10a0-4e5c-bcd4-bc7e1702a495>,
+        <https://fdp.lumc.nl/catalog/cdb5bca2-30f1-4747-9cc6-367ab8a6b46b>,
+        <https://fdp.lumc.nl/study/55e88b65-df38-4575-8202-11325736da51> ;
+    ns1:metadataIdentifier <https://fdp.lumc.nl#identifier> ;
+    ns1:metadataIssued "2024-01-08T09:00:33.870000+00:00"^^xsd:dateTime ;
+    ns1:metadataModified "2025-05-28T09:28:31.347000+00:00"^^xsd:dateTime .
+

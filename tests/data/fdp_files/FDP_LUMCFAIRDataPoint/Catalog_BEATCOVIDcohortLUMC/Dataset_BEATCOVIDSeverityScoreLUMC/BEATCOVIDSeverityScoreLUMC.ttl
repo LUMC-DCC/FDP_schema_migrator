@@ -1,0 +1,263 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ldp: <http://www.w3.org/ns/ldp#> .
+@prefix ns1: <http://semanticscience.org/resource/> .
+@prefix ns2: <https://w3id.org/fdp/fdp-o#> .
+@prefix ns3: <http://www.w3.org/2006/vcard/ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://fdp.lumc.nl/distribution/> a ldp:DirectContainer ;
+    dcterms:title "Distributions" ;
+    ldp:hasMemberRelation dcat:distribution ;
+    ldp:membershipResource <https://fdp.lumc.nl/dataset/9c14c3c4-cef9-4fd9-8bdf-75058a9ff19a> .
+
+<https://fdp.lumc.nl/dataset/9c14c3c4-cef9-4fd9-8bdf-75058a9ff19a> a dcat:Dataset ;
+    rdfs:label "BEAT COVID Severity Score LUMC" ;
+    dcterms:accessRights <http://publications.europa.eu/resource/authority/access-right/RESTRICTED> ;
+    dcterms:conformsTo <https://fdp.lumc.nl/profile/2f08228e-1789-40f8-84cd-28e3288c3604> ;
+    dcterms:creator [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0003-0373-9372" ;
+            foaf:homepage <https://www.lumc.nl/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Aswin Verhoeven" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0001-5186-2290" ;
+            foaf:homepage <https://www.lumc.nl/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Leendert A. Trouw" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0002-3650-7087" ;
+            foaf:homepage <https://www.lumc.nl/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Jacques J.M. van Dongen" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://www.researchgate.net/scientific-contributions/Michael-R-Del-Prado-2210501304" ;
+            foaf:homepage <https://www.lumc.nl/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Michael R. del Prado" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0002-0238-5982" ;
+            foaf:homepage <https://www.lumc.nl/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Pieter S. Hiemstra" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0003-3706-3403" ;
+            foaf:homepage <https://www.lumc.nl/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Tom H.M. Ottenhoff" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0001-5242-3257" ;
+            foaf:homepage <https://www.lumc.nl/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "M. Sesmu Arbous" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0002-1397-0992" ;
+            foaf:homepage <https://www.lumc.nl/en/afdelingen/lucid/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Anna Roukens, , Principal Investigator of the LUMC BEAT COVID group " ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0002-1613-106X" ;
+            foaf:homepage <https://www.lumc.nl/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Anne M. van der Does" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0003-3297-2309" ;
+            foaf:homepage <https://www.lumc.nl/en/afdelingen/lucid/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Eric J. Snijder" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0002-4835-1032" ;
+            foaf:homepage <https://www.lumc.nl/en/afdelingen/lucid/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Simon P. Jochems" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0002-3268-5759" ;
+            foaf:homepage <https://www.lumc.nl/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Jeroen Eikenboom" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0002-9878-0863" ;
+            foaf:homepage <https://www.lumc.nl/en/afdelingen/lucid/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Simone A. Joosten" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0002-5726-5777" ;
+            foaf:homepage <https://www.lumc.nl/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Bernard M. van den Berg" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0001-7871-2073" ;
+            foaf:homepage <https://www.lumc.nl/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Thomas Hankemeier" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0003-1588-8519" ;
+            foaf:homepage <https://www.lumc.nl/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Frank J.T. Staal" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0002-0814-4995" ;
+            foaf:homepage <https://www.lumc.nl/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Manfred Wuhrer" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0002-5052-2830" ;
+            foaf:homepage <https://www.lumc.nl/en/afdelingen/lucid/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Meta Roestenberg" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0002-5743-6193" ;
+            foaf:homepage <https://www.lumc.nl/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "David J. van Westerloo" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0001-6320-9133" ;
+            foaf:homepage <https://www.lumc.nl/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Mirjam H.M. Heemskerk" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0003-4707-2303" ;
+            foaf:homepage <https://www.lumc.nl/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Suzanne Cannegieter" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0003-1698-9979" ;
+            foaf:homepage <https://www.lumc.nl/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Judith ManniÃ«n" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0003-4283-0259" ;
+            foaf:homepage <https://www.lumc.nl/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Jelle J. Goeman" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://www.researchgate.net/profile/Jeanette-Wigbers" ;
+            foaf:homepage <https://www.lumc.nl/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Jeanette Wigbers" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0002-3466-5401" ;
+            foaf:homepage <https://www.lumc.nl/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Roula Tsonaka" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0002-3600-9782" ;
+            foaf:homepage <https://www.lumc.nl/en/afdelingen/lucid/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Leo G. Visser" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0002-0317-110X" ;
+            foaf:homepage <https://www.lumc.nl/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Henk J. van der Wijk" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0003-3565-1404" ;
+            foaf:homepage <https://www.lumc.nl/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Christa M. Cobbaert" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0002-5779-7386" ;
+            foaf:homepage <https://www.lumc.nl/en/afdelingen/lucid/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Marjolein Kikkert" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0002-8380-1406" ;
+            foaf:homepage <https://www.lumc.nl/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Robin C. van Wissen" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0002-2779-124X" ;
+            foaf:homepage <https://www.lumc.nl/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Lieke Lamont" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0001-8555-2872" ;
+            foaf:homepage <https://www.lumc.nl/en/afdelingen/lucid/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Annemieke Geluk" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0003-4884-5881" ;
+            foaf:homepage <https://www.lumc.nl/en/afdelingen/lucid/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Jacqueline J. Janse" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0002-7666-1441" ;
+            foaf:homepage <https://www.lumc.nl/en/afdelingen/lucid/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Maria Yazdanbakhsh" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0001-5993-9846" ;
+            foaf:homepage <https://www.lumc.nl/en/afdelingen/lucid/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Mariet C.W. Feltkamp" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0001-9279-2890" ;
+            foaf:homepage <https://www.lumc.nl/en/afdelingen/lucid/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Hermelijn H. Smits" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0003-2530-6260" ;
+            foaf:homepage <https://www.lumc.nl/en/afdelingen/lucid/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Jutte J.C. de Vries" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0003-3545-7804" ;
+            foaf:homepage <https://www.lumc.nl/en/afdelingen/lucid/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Cornelis H. Hokke" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0002-8089-4352" ;
+            foaf:homepage <https://www.lumc.nl/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "T. Pongracz" ],
+        [ a foaf:Agent ;
+            dcterms:identifier "https://orcid.org/0000-0003-1684-1894" ;
+            foaf:homepage <https://www.lumc.nl/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Martin Giera" ] ;
+    dcterms:description "BEAT COVID Severity Score LUMC: Research laboratory data of LUMC BEAT COVID cohort. Prospective observational WMO study including 191 COVID-19 patients from April 2020 to March 2021. Over 400 different laboratory variables were measured, listed in the attached tables. Principle Investigator, Anna Roukens, LUCID. Website: https://w3id.org/lumc/lucid/beatcovid_severityscores" ;
+    dcterms:identifier "https://w3id.org/lumc/lucid/beatcovid_severityscores" ;
+    dcterms:isPartOf <https://fdp.lumc.nl/catalog/cbf5dcc7-10a0-4e5c-bcd4-bc7e1702a495> ;
+    dcterms:isReferencedBy <https://doi.org/10.1016/j.ebiom.2022.103957>,
+        <https://doi.org/10.1016/j.isci.2022.105873>,
+        <https://doi.org/10.1016/j.isci.2024.110374>,
+        <https://doi.org/10.1016/j.lanmic.2024.07.005>,
+        <https://doi.org/10.1038/s41590-021-01095-w>,
+        <https://doi.org/10.1038/s41598-024-63586-8>,
+        <https://doi.org/10.1371/journal.pone.0291212>,
+        <https://doi.org/10.3390/cells11172743> ;
+    dcterms:issued "2024-02-04T00:00:00+00:00"^^xsd:dateTime ;
+    dcterms:language <http://id.loc.gov/vocabulary/iso639-1/en> ;
+    dcterms:license <http://example.org/niet-open> ;
+    dcterms:modified "2024-02-04T00:00:00+00:00"^^xsd:dateTime ;
+    dcterms:publisher [ a foaf:Agent ;
+            dcterms:identifier "https://ror.org/05xvt9f17" ;
+            foaf:homepage <https://www.lumc.nl/en/afdelingen/lucid/> ;
+            foaf:mbox <mailto:lucid@lumc.nl> ;
+            foaf:name "Leiden University Medical Center, the Netherlands" ] ;
+    dcterms:title "BEAT COVID Severity Score LUMC" ;
+    ns1:SIO_000628 <https://fdp.lumc.nl/dataset/9c14c3c4-cef9-4fd9-8bdf-75058a9ff19a/metrics/445c0a70d1e214e545b261559e2842f4>,
+        <https://fdp.lumc.nl/dataset/9c14c3c4-cef9-4fd9-8bdf-75058a9ff19a/metrics/5d27e854a9e78eb3f663331cd47cdc13> ;
+    dcat:contactPoint [ a ns3:Kind ;
+            ns3:fn "Anna Roukens, Principle Investigator, Dept. LUCID, https://orcid.org/0000-0002-1397-0992" ;
+            ns3:hasEmail <mailto:lucid@lumc.nl> ] ;
+    dcat:keyword "COVID-19" ;
+    dcat:theme <http://publications.europa.eu/resource/authority/data-theme/HEAL> ;
+    foaf:page <https://dw.clinicalresearch.nl/pub/dataset/beatcovid_severityscores> ;
+    ns2:metadataIdentifier <https://fdp.lumc.nl/dataset/9c14c3c4-cef9-4fd9-8bdf-75058a9ff19a#identifier> ;
+    ns2:metadataIssued "2025-04-08T11:17:14.142000+00:00"^^xsd:dateTime ;
+    ns2:metadataModified "2025-05-28T09:27:15.562000+00:00"^^xsd:dateTime .
+
+<https://fdp.lumc.nl/dataset/9c14c3c4-cef9-4fd9-8bdf-75058a9ff19a#identifier> a <http://purl.org/spar/datacite/Identifier> ;
+    dcterms:identifier "https://fdp.lumc.nl/dataset/9c14c3c4-cef9-4fd9-8bdf-75058a9ff19a" .
+
+<https://fdp.lumc.nl/dataset/9c14c3c4-cef9-4fd9-8bdf-75058a9ff19a/metrics/445c0a70d1e214e545b261559e2842f4> ns1:SIO_000332 <https://www.ietf.org/rfc/rfc3986.txt> ;
+    ns1:SIO_000628 <https://www.ietf.org/rfc/rfc3986.txt> .
+
+<https://fdp.lumc.nl/dataset/9c14c3c4-cef9-4fd9-8bdf-75058a9ff19a/metrics/5d27e854a9e78eb3f663331cd47cdc13> ns1:SIO_000332 <https://www.wikidata.org/wiki/Q8777> ;
+    ns1:SIO_000628 <https://www.wikidata.org/wiki/Q8777> .
+
+<https://fdp.lumc.nl/profile/2f08228e-1789-40f8-84cd-28e3288c3604> rdfs:label "Dataset Profile" .
+

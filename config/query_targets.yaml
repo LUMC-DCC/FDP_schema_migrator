@@ -1,0 +1,10 @@
+query_targets:
+  coviddataset: 
+    - https://fdp.lumc.nl/dataset/d8a00375-c0e8-45cd-a931-dea7481c1fed #COMODULATE
+    - https://fdp.lumc.nl/dataset/0ec1135a-6b33-4ea4-8a87-56fcd1275170 #BEAT
+    - https://fdp.lumc.nl/dataset/13ce6ced-8ce9-45b9-b0b1-ae7d5188acc3 #BEAT
+    - https://fdp.lumc.nl/dataset/9c14c3c4-cef9-4fd9-8bdf-75058a9ff19a #BEAT
+    - https://fdp.lumc.nl/dataset/b5ee929f-f7d7-4968-9ef5-295ab5ae3db4 #BEAT
+  covidcatalog:
+    - https://fdp.lumc.nl/catalog/cdb5bca2-30f1-4747-9cc6-367ab8a6b46b #COMODULATE
+    - https://fdp.lumc.nl/catalog/cbf5dcc7-10a0-4e5c-bcd4-bc7e1702a495 #BEAT

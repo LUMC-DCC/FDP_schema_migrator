@@ -1,0 +1,151 @@
+PREFIX dcat:      <http://www.w3.org/ns/dcat#>
+PREFIX dct:       <http://purl.org/dc/terms/>
+PREFIX foaf:      <http://xmlns.com/foaf/0.1/>
+PREFIX vcard:     <http://www.w3.org/2006/vcard/ns#>
+PREFIX dcatap:    <http://data.europa.eu/r5r/>
+PREFIX health:    <http://healthdataportal.eu/ns/health#>
+
+CONSTRUCT {
+
+    ###############################################################
+    # Catalog
+    ###############################################################
+
+    ?datasetseries
+        a dcat:DatasetSeries ;
+        dct:title ?title ;
+        dct:description ?description ;
+        dct:issued ?issued ;
+        dct:modified ?now ;
+        dct:spatial
+            <http://publications.europa.eu/resource/authority/country/NLD> ;
+        dct:creator ?lumc ;
+        dct:publisher ?lumc ;
+        dcat:contactPoint ?contactPoint ;
+        dcat:themeTaxonomy ?themeTaxonomy ;
+        dcatap:applicableLegislation
+            <http://data.europa.eu/eli/reg/2025/327/oj> ;
+        dct:replaces ?sourcedcatalog .
+
+    ###############################################################
+    # Canonical LUMC Agent
+    ###############################################################
+
+    ?lumc
+        a foaf:Agent ;
+        dct:identifier "https://ror.org/05xvt9f17" ;
+        foaf:name
+            "Leiden University Medical Center"@en ,
+            "Leids Universitair Medisch Centrum"@nl ;
+        health:publisherNote
+            "Het Leids Universitair Medisch Centrum (LUMC) is een universitair medisch centrum (umc). Wij hebben een actieve en innovatieve rol in de gezondheidszorg: regionaal, nationaal en internationaal. Dat is terug te zien in onze 3 kerntaken: patientenzorg, wetenschappelijk onderzoek en het opleiden van zorgprofessionals (onderwijs)."@nl ;
+        health:publisherType
+            <http://purl.org/adms/publishertype/Academia-ScientificOrganisation> ;
+        dct:spatial
+            <http://publications.europa.eu/resource/authority/country/NLD> ;
+        foaf:homepage
+            <https://www.lumc.nl/> ;
+        foaf:mbox
+            ?contactEmail .
+
+    ###############################################################
+    # Contact Point
+    ###############################################################
+
+    ?contactPoint
+        a vcard:Kind ;
+        vcard:fn ?contactName ;
+        vcard:hasEmail ?contactEmail ;
+        vcard:hasURL ?contactUrl .
+    
+   
+}
+WHERE {
+
+    ?datasetseries a dcat:Catalog ;
+            dcterms:isPartOf <https://fdp.lumc.nl/study/55e88b65-df38-4575-8202-11325736da51> .
+    bind(?datasetseries as ?sourcedcatalog)
+
+    BIND(NOW() AS ?now)
+
+    BIND(
+    IRI("https://fdp.lumc.nl/datasetseries/new")
+    AS ?datasetseries
+    )
+    
+    BIND(
+        IRI(CONCAT(STR(?datasetseries), "/organization/lumc"))
+        AS ?lumc
+    )
+
+    OPTIONAL { ?sourcedcatalog dct:title ?title }
+    OPTIONAL { ?sourcedcatalog dct:description ?description }
+    OPTIONAL { ?sourcedcatalog dct:issued ?issued }
+    OPTIONAL { ?sourcedcatalog dct:language ?language }
+
+    OPTIONAL { ?sourcedcatalog dcat:dataset ?dataset }
+
+    OPTIONAL {
+        ?sourcedcatalog dcat:theme ?theme
+    }
+
+    OPTIONAL {
+        ?sourcedcatalog foaf:homepage ?homepage
+    }
+
+    OPTIONAL {
+        ?sourcedcatalog dcat:contactPoint ?contactPoint .
+
+        OPTIONAL {
+            ?contactPoint vcard:fn ?existingcontactName
+        }
+
+        OPTIONAL {
+            ?contactPoint vcard:hasEmail ?existingcontactEmail
+        }
+
+        OPTIONAL {
+            ?contactPoint vcard:hasURL ?existingcontactUrl
+        }
+    }
+    OPTIONAL {
+    ?sourcedcatalog dcat:contactPoint ?existingContactPoint .
+
+    OPTIONAL {
+        ?existingContactPoint vcard:fn ?existingContactName
+    }
+
+    OPTIONAL {
+        ?existingContactPoint vcard:hasEmail ?existingContactEmail
+    }
+
+    OPTIONAL {
+        ?existingContactPoint vcard:hasURL ?existingContactUrl
+    }
+    }
+
+    BIND(
+        COALESCE(
+            ?existingContactPoint,
+            IRI(CONCAT(STR(?catalog), "/contact-point"))
+        )
+        AS ?contactPoint
+    )
+
+    BIND(
+        COALESCE(?existingContactName, "Contact Address LLS")
+        AS ?contactName
+    )
+
+    BIND(
+        COALESCE(?existingContactEmail,
+                IRI("mailto:Datarequest_lls@lumc.nl"))
+        AS ?contactEmail
+    )
+
+    BIND(
+        COALESCE(?existingContactUrl,
+                IRI("https://leidenlangleven.nl/data-access/"))
+        AS ?contactUrl
+    )
+}

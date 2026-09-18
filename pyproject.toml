@@ -7,25 +7,31 @@ name = "fdpmigrator"
 version = "0.1.0"
 description = "A schema migration utility for FDP projects."
 readme = "README.md"
-requires-python = ">=3.10"
-license = { text = "MIT" }
+requires-python = ">=3.12"
+license = { text = "Apache-2.0" }
 authors = [
   { name = "Karolis Cremers", email = "dcc@lumc.com" },
 ]
 dependencies = [
   "sqlalchemy>=2.0",
   "alembic>=1.11",
+  "rdflib>=7.6.0",
+  "meta2fdp",
+  "owlrl>=7.6.2",
 ]
 keywords = ["schema", "migration", "FDP", "database"]
 
 [project.urls]
-Homepage = "https://example.com"
-Repository = "https://example.com/repo"
+Homepage = "https://github.com/LUMC-DCC/meta2fdp"
+Repository = "https://github.com/LUMC-DCC/meta2fdp"
 [tool.setuptools]
 package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.uv.sources]
+meta2fdp = { git = "https://github.com/LUMC-DCC/meta2fdp" }
 [project.optional-dependencies]
 dev = [
   "pytest>=8.0",

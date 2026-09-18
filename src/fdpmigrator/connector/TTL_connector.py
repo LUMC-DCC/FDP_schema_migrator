@@ -3,11 +3,19 @@ from pathlib import Path
 
 from rdflib import Graph, URIRef
 
-class TTLExtractor:
+
+class TTLconnector:
     """This class provides methods to extract RDF graphs from TTL files and iterate through folder structures containing TTL files."""
     def __init__(self, base_path: Path = None, file_path: Path = None, resource_type:URIRef = None):
         """
         Initializes the TTLExtractor with the given parameters.
+
+        :base_path: The base path to start iterating through the folder structure.
+        :base_path type: Path
+        :file_path: The path to a specific TTL file to read.
+        :file_path type: Path
+        :resource_type: The type of resources to filter for.
+        :resource_type type: URIRef
         """
         self.base_path = base_path
         self.file_path = file_path

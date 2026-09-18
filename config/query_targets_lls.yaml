@@ -1,0 +1,9 @@
+query_targets:
+  LLScatalog:
+    - http://www.w3.org/ns/dcat#Catalog
+  LLSdatasetseriesfromcatalog:
+    - http://www.w3.org/ns/dcat#Catalog
+  LLSdatasetseriesfromdatasetseries:
+    - http://www.w3.org/ns/dcat#DatasetSeries
+  LLSdataset:
+    - http://www.w3.org/ns/dcat#Dataset

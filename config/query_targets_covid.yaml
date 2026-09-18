@@ -1,0 +1,5 @@
+query_targets:
+  coviddataset: 
+    - http://www.w3.org/ns/dcat#Dataset
+  covidcatalog:
+    - http://www.w3.org/ns/dcat#Catalog

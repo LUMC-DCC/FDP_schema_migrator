@@ -24,7 +24,7 @@ CONSTRUCT {
         dct:publisher ?lumc ;
         dcat:contactPoint ?contactPoint ;
         dcat:dataset ?dataset ;
-        dcat:themeTaxonomy ?themeTaxonomy ;
+        dcat:theme ?theme ;
         foaf:homepage ?homepage ;
         dcatap:applicableLegislation
             <http://data.europa.eu/eli/reg/2025/327/oj> .
@@ -40,7 +40,7 @@ CONSTRUCT {
             "Leiden University Medical Center"@en ,
             "Leids Universitair Medisch Centrum"@nl ;
         health:publisherNote
-            "Het Leids Universitair Medisch Centrum (LUMC) is een universitair medisch centrum (umc). Wij hebben een actieve en innovatieve rol in de gezondheidszorg: regionaal, nationaal en internationaal. Dat is terug te zien in onze 3 kerntaken: patiëntenzorg, wetenschappelijk onderzoek en het opleiden van zorgprofessionals (onderwijs)."@nl ;
+            "Het Leids Universitair Medisch Centrum (LUMC) is een universitair medisch centrum (umc). Wij hebben een actieve en innovatieve rol in de gezondheidszorg: regionaal, nationaal en internationaal. Dat is terug te zien in onze 3 kerntaken: patientenzorg, wetenschappelijk onderzoek en het opleiden van zorgprofessionals (onderwijs)."@nl ;
         health:publisherType
             <http://purl.org/adms/publishertype/Academia-ScientificOrganisation> ;
         dct:spatial
@@ -79,7 +79,7 @@ WHERE {
     OPTIONAL { ?catalog dcat:dataset ?dataset }
 
     OPTIONAL {
-        ?catalog dcat:themeTaxonomy ?themeTaxonomy
+        ?catalog dcat:theme ?theme
     }
 
     OPTIONAL {

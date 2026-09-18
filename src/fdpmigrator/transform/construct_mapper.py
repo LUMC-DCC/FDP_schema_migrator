@@ -1,12 +1,15 @@
-from rdflib import RDF, Graph
-import yaml
 from pathlib import Path
 
-query_targets = yaml.safe_load(open("config/query_targets_lls.yaml"))["query_targets"]
+import yaml
+from rdflib import RDF, Graph
+
+with open("config/query_targets_lls.yaml") as target_file:
+    query_targets = yaml.safe_load(target_file)["query_targets"]
+
 query_folder = Path("SPARQL")
 
 class ConstructMapper:
-    def __init__(self, graph:Graph, construct_query:str = None, query_targets:dict = None, query_folder:Path = query_folder):
+    def __init__(self, graph:Graph, construct_query:str | None = None, query_targets:dict | None = None, query_folder:Path = query_folder):
         self.graph = graph
         self.construct_query = construct_query
         self.query_targets = query_targets

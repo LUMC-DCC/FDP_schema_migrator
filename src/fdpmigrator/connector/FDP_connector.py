@@ -22,8 +22,8 @@ class FDPConnector:
 
     An FDP exposes each resource as RDF and links parent resources to their
     children with ``ldp:contains``. (see https://github.com/fdp-specs/fdp-specs.github.io/blob/5e122bf192b431afe5034c71379f8522e1cbb227/src/metadata.md?plain=1#L38-L46)
-    The connector follows those links,writes each response to a resource-specific directory, and returns one
-    merged graph for callers that also need the complete metadata tree.
+    The connector follows those links, writes each response to a resource-specific directory,
+    and returns one merged graph for callers that also need the complete metadata tree.
     """
 
     def __init__(self, working_directory=None):
@@ -47,6 +47,7 @@ class FDPConnector:
         title is used in both directory and file names, so punctuation and
         other non-word characters are removed before it is returned.
         """
+        #TODO titles can be extremely long, an alternative method of writing files should be used to prevent issues in git or OS level
         query = """PREFIX dcterms: <http://purl.org/dc/terms/>
         SELECT ?o WHERE {
         ?url dcterms:title ?o .
@@ -58,7 +59,7 @@ class FDPConnector:
         """Write a resource graph to the appropriate Turtle file.
 
         The directory is selected separately by :meth:`directories`; keeping
-        serialization here ensures every resource is persisted before its
+        serialization here ensures every resource is written before its
         children are traversed.
         """
         filepath = os.path.join(directory, self.get_title(graph, url))
@@ -67,11 +68,12 @@ class FDPConnector:
     def directories(self, graph, url, path):
         """Return and create the directory for a resource in the FDP tree.
 
-        The FDP root starts a new ``FDP_<title>`` directory.  For descendants,
+        The FDP root starts a new ``FDP_<title>`` directory.  For child resources,
         the RDF type becomes the directory prefix, for example
         ``Catalog_<title>``.  MetadataService, dcat:Resource, and
-        dcat:DataService are implementation details or shared types rather
-        than hierarchy levels, so they are deliberately excluded from paths.
+        dcat:DataService are shared types across multiple resources and
+        are not usefull for identifying what resource has been captured,
+        so they are deliberately excluded from paths.
         """
         query = """SELECT ?value WHERE {
         ?url a ?value .
@@ -82,7 +84,7 @@ class FDPConnector:
             uri = str(attribute[0])
             if uri == "https://w3id.org/fdp/fdp-o#FAIRDataPoint":
                 # The root must be anchored to the configured output folder;
-                # descendants are appended to the path supplied by the parent.
+                # child resources are appended to the path supplied by the parent.
                 current_path = os.path.join(
                     self.working_directory,
                     "FDP_" + self.get_title(graph, url).rstrip(" ").replace(" ", "_"),

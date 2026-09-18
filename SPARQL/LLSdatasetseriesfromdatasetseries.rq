@@ -5,6 +5,7 @@ PREFIX prov:      <http://www.w3.org/ns/prov#>
 PREFIX vcard:     <http://www.w3.org/2006/vcard/ns#>
 PREFIX dcatap:    <http://data.europa.eu/r5r/>
 PREFIX health:    <http://healthdataportal.eu/ns/health#>
+PREFIX owl:       <http://www.w3.org/2002/07/owl#>
 
 CONSTRUCT {
 
@@ -12,18 +13,18 @@ CONSTRUCT {
   # DATASET
   #################################################################
 
-  ?dataset
-      a dcat:Dataset ;
+  ?DatasetSeries
+      a dcat:DatasetSeries ;
       dct:title ?title ;
       dct:description ?description ;
       dct:identifier ?identifier ;
+      prov:Attribution ?attribution ;
       dct:issued ?issued ;
       dct:modified ?now ;
       dct:accessRights ?accessRights ;
       dct:language ?language ;
       dcat:theme ?theme ;
       dcat:keyword ?keyword ;
-      dct:conformsTo ?conformsTo ;
       dcat:contactPoint ?contactPoint ;
       foaf:page ?page ;
       dct:isReferencedBy ?publication ;
@@ -31,7 +32,8 @@ CONSTRUCT {
       dct:publisher ?lumc ;
       dcatap:applicableLegislation
           <http://data.europa.eu/eli/reg/2025/327/oj> ;
-      prov:qualifiedAttribution ?attribution .
+      prov:qualifiedAttribution ?attribution ;
+      dcat:keyword "epidemiology"@en , "epidemiologie"@nl .
 
   #################################################################
   # LUMC ORGANIZATION
@@ -83,7 +85,11 @@ CONSTRUCT {
 }
 WHERE {
 
-  ?dataset a dcat:Dataset .
+  ?dataset a dcat:DatasetSeries .
+  BIND(?dataset AS ?sourcedataset)
+
+  BIND( IRI("https://fdp.lumc.nl/dataset/new")
+    AS ?dataset)
 
   BIND(NOW() AS ?now)
 
@@ -92,38 +98,37 @@ WHERE {
       AS ?lumc
   )
 
-  OPTIONAL { ?dataset dct:title ?title }
-  OPTIONAL { ?dataset dct:description ?description }
-  OPTIONAL { ?dataset dct:identifier ?identifier }
-  OPTIONAL { ?dataset dct:issued ?issued }
+  OPTIONAL { ?sourcedataset dct:title ?title }
+  OPTIONAL { ?sourcedataset dct:description ?description }
+  OPTIONAL { ?sourcedataset dct:identifier ?identifier }
+  OPTIONAL { ?sourcedataset dct:issued ?issued }
 
-  OPTIONAL { ?dataset dct:accessRights ?accessRights }
-  OPTIONAL { ?dataset dct:language ?language }
-  OPTIONAL { ?dataset dcat:theme ?theme }
-  OPTIONAL { ?dataset dcat:keyword ?keyword }
+  OPTIONAL { ?sourcedataset dct:accessRights ?accessRights }
+  OPTIONAL { ?sourcedataset dct:language ?language }
+  OPTIONAL { ?sourcedataset dcat:theme ?theme }
+  OPTIONAL { ?sourcedataset dcat:keyword ?keyword }
 
-  OPTIONAL { ?dataset dct:conformsTo ?conformsTo }
-  OPTIONAL { ?dataset foaf:page ?page }
-  OPTIONAL { ?dataset dct:isReferencedBy ?publication }
+  OPTIONAL { ?sourcedataset dct:conformsTo ?conformsTo }
+  OPTIONAL { ?sourcedataset foaf:page ?page }
+  OPTIONAL { ?sourcedataset dct:isReferencedBy ?publication }
 
   OPTIONAL {
-      ?dataset dcat:contactPoint ?contactPoint .
+      ?sourcedataset dcat:contactPoint ?contactPoint .
 
       OPTIONAL { ?contactPoint vcard:fn ?contactName }
       OPTIONAL { ?contactPoint vcard:hasEmail ?contactEmail }
   }
 
   OPTIONAL {
-
-      ?dataset dct:creator ?author .
-
+      # set qualified attribution based on creator property as this was previously used to indicate the author of the dataset
+      ?sourcedataset dct:creator ?author .
       ?author
           dct:identifier ?authorId ;
           foaf:name ?authorName .
 
       OPTIONAL { ?author foaf:homepage ?authorHomepage }
       OPTIONAL { ?author foaf:mbox ?authorEmail }
-
+      # bind attribution IRI based on dataset and author ORCID ID
       BIND(
           IRI(
               CONCAT(
@@ -140,17 +145,21 @@ WHERE {
           )
           AS ?attribution
       )
-
+      # bind role based on ORCID ID (example: PI vs. collaborator)
       BIND(
           IF(
               ?authorId IN (
-                  "https://orcid.org/0000-0002-1397-0992",
-                  "https://orcid.org/0000-0003-2530-6260"
+                  "EXAMPLE_ORCID_1"
               ),
               <https://standards.iso.org/iso/19115/resources/Codelists/gml/CI_RoleCode.xml#PrincipalInvestigator>,
               <https://standards.iso.org/iso/19115/resources/Codelists/gml/CI_RoleCode.xml#Collaborator>
-          )AS ?role
+          )
+          AS ?role
       )
+            
+      ?attribution
+          a prov:Attribution ;
+          prov:agent ?author ;
+          dcat:hadRole ?role .
   }
-  
 }

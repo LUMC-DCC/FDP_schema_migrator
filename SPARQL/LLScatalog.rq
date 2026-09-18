@@ -24,10 +24,11 @@ CONSTRUCT {
         dct:publisher ?lumc ;
         dcat:contactPoint ?contactPoint ;
         dcat:dataset ?dataset ;
-        dcat:theme ?theme ;
+        dcat:themeTaxonomy ?themeTaxonomy ;
         foaf:homepage ?homepage ;
         dcatap:applicableLegislation
-            <http://data.europa.eu/eli/reg/2025/327/oj> .
+            <http://data.europa.eu/eli/reg/2025/327/oj> ;
+        dct:replaces ?oldcatalog .
 
     ###############################################################
     # Canonical LUMC Agent
@@ -48,7 +49,7 @@ CONSTRUCT {
         foaf:homepage
             <https://www.lumc.nl/> ;
         foaf:mbox
-            <mailto:lucid@lumc.nl> .
+            ?contactEmail .
 
     ###############################################################
     # Contact Point
@@ -57,44 +58,96 @@ CONSTRUCT {
     ?contactPoint
         a vcard:Kind ;
         vcard:fn ?contactName ;
-        vcard:hasEmail ?contactEmail .
-
+        vcard:hasEmail ?contactEmail ;
+        vcard:hasURL ?contactUrl
+    
+   
 }
 WHERE {
 
     ?catalog a dcat:Catalog .
+    bind(?catalog as ?sourcedcatalog)
 
     BIND(NOW() AS ?now)
 
+    BIND(
+    IRI("https://fdp.lumc.nl/catalog/new")
+    AS ?catalog
+    )
+    
     BIND(
         IRI(CONCAT(STR(?catalog), "/organization/lumc"))
         AS ?lumc
     )
 
-    OPTIONAL { ?catalog dct:title ?title }
-    OPTIONAL { ?catalog dct:description ?description }
-    OPTIONAL { ?catalog dct:issued ?issued }
-    OPTIONAL { ?catalog dct:language ?language }
+    OPTIONAL { ?sourcedcatalog dct:title ?title }
+    OPTIONAL { ?sourcedcatalog dct:description ?description }
+    OPTIONAL { ?sourcedcatalog dct:issued ?issued }
+    OPTIONAL { ?sourcedcatalog dct:language ?language }
 
-    OPTIONAL { ?catalog dcat:dataset ?dataset }
+    OPTIONAL { ?sourcedcatalog dcat:dataset ?dataset }
 
     OPTIONAL {
-        ?catalog dcat:theme ?theme
+        ?sourcedcatalog dcat:theme ?theme
     }
 
     OPTIONAL {
-        ?catalog foaf:homepage ?homepage
+        ?sourcedcatalog foaf:homepage ?homepage
     }
 
     OPTIONAL {
-        ?catalog dcat:contactPoint ?contactPoint .
+        ?sourcedcatalog dcat:contactPoint ?contactPoint .
 
         OPTIONAL {
-            ?contactPoint vcard:fn ?contactName
+            ?contactPoint vcard:fn ?existingcontactName
         }
 
         OPTIONAL {
-            ?contactPoint vcard:hasEmail ?contactEmail
+            ?contactPoint vcard:hasEmail ?existingcontactEmail
+        }
+
+        OPTIONAL {
+            ?contactPoint vcard:hasURL ?existingcontactUrl
         }
     }
+    OPTIONAL {
+    ?sourcedcatalog dcat:contactPoint ?existingContactPoint .
+
+    OPTIONAL {
+        ?existingContactPoint vcard:fn ?existingContactName
+    }
+
+    OPTIONAL {
+        ?existingContactPoint vcard:hasEmail ?existingContactEmail
+    }
+
+    OPTIONAL {
+        ?existingContactPoint vcard:hasURL ?existingContactUrl
+    }
+    }
+
+    BIND(
+        COALESCE(
+            ?existingContactPoint,
+            IRI(CONCAT(STR(?catalog), "/contact-point"))
+        )
+        AS ?contactPoint
+    )
+
+    BIND(
+        COALESCE(?existingContactName, "Contact Address LLS")
+        AS ?contactName
+    )
+
+    BIND(
+        COALESCE(?existingContactEmail,
+                IRI("mailto:Datarequest_lls@lumc.nl"))
+        AS ?contactEmail
+    )
+
+    BIND(
+        COALESCE(?existingContactUrl,
+                IRI("https://leidenlangleven.nl/data-access/"))
+        AS ?contactUrl
+    )
 }

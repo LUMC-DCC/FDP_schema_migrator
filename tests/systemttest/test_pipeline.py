@@ -10,7 +10,8 @@ from fdpmigrator.connector.ttl import TTLconnector
 from fdpmigrator.load.write_to_folder import write_to_folder
 from fdpmigrator.transform.construct_mapper import ConstructMapper
 
-query_targets = yaml.safe_load(open("config/query_targets_covid.yaml"))["query_targets"]
+with open("config/query_targets_covid.yaml") as target_file:
+    query_targets = yaml.safe_load(target_file)["query_targets"]
 TTL_connector = TTLconnector(base_path=Path("tests/data/fdp_files/FDP_LUMCFAIRDataPoint/Catalog_COMODULATECOVIDINFLUENZAcohortLUMC"), )
 
 mapped_graphs = []

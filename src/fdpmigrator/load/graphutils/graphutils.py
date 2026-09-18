@@ -19,7 +19,8 @@ class GraphUtils(BaseGraphUtils):
 
     def get_main_resource(self, graph: Graph) -> URIRef:
         """Get the main resource of the graph. This is done through the 
-        finding the subject that is described as dcat:Resource"""
+        finding the subject that is described as dcat:Resource.
+        To make sure it is the main resource, it also checks if the subject has more properties than just type. (all other properties are in their own graphs, so if the subject has more properties than just type, it is the main resource of the graph)"""
         #TODO If in the future we would want to migrate distributions it would have to
         # be manually added, as dcat:Distribution is not a dcat:Distribution
         result = graph.query("""PREFIX dcat: <http://www.w3.org/ns/dcat#>

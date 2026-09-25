@@ -7,7 +7,9 @@ import yaml
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from fdpmigrator.connector.ttl import TTLconnector
-from fdpmigrator.load.write_to_folder import write_to_folder_lls
+from fdpmigrator.load.write_to_folder import (
+    write_to_folder_stupid as write_to_folder_lls,
+)
 from fdpmigrator.transform.construct_mapper import ConstructMapper
 
 with open("config/query_targets_lls.yaml") as target_file:
@@ -19,7 +21,7 @@ mapped_graphs = []
 for graph in TTL_connector.generator():
     CONSTRUCT_MAPPER = ConstructMapper(graph=graph, query_targets=query_targets, query_folder=Path("SPARQL"))
     result_graph = CONSTRUCT_MAPPER.apply()
-    print(result_graph.serialize(format="turtle"))
+    #print(result_graph.serialize(format="turtle"))
     mapped_graphs.append(result_graph)
 
 write_to_folder_lls(mapped_graphs, base_path="tests/data/output/FDP_LUMCFAIRDataPoint/lls/mapped")

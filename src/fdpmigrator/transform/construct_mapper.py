@@ -19,6 +19,11 @@ class ConstructMapper:
         with open(self.query_folder / f"{query_name}.rq", "r") as f:
             return f.read()
 
+    def remove_used_query_target(self, query_name: str):
+        """Remove the LLScatalog target after its query has been selected."""
+        if query_name == "LLScatalog":
+            self.query_targets.pop(query_name, None)
+
     def apply(self):
         """
         Applies the SPARQL CONSTRUCT query to the given RDF graph and returns the resulting graph.
@@ -36,6 +41,7 @@ class ConstructMapper:
                 for query_name, types in self.query_targets.items():
                     if str(subjectypes) in types:
                         self.construct_query = self.get_query(query_name)
+                        self.remove_used_query_target(query_name)
                         break
                 if self.construct_query is not None:
                     break

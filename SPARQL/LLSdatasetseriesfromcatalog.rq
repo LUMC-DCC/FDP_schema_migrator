@@ -63,7 +63,7 @@ CONSTRUCT {
 WHERE {
 
     ?datasetseries a dcat:Catalog ;
-            dcterms:isPartOf <https://fdp.lumc.nl/study/55e88b65-df38-4575-8202-11325736da51> .
+            dct:isPartOf <https://fdp.lumc.nl/study/55e88b65-df38-4575-8202-11325736da51> .
     bind(?datasetseries as ?sourcedcatalog)
 
     BIND(NOW() AS ?now)

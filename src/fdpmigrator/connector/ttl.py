@@ -1,4 +1,5 @@
 import os
+from collections.abc import Iterator
 from pathlib import Path
 
 from rdflib import Graph, URIRef
@@ -51,7 +52,7 @@ class TTLconnector:
             g.parse(ttl_file, format="turtle")
         return g
 
-    def generator(self, base_path=None, resource_type=None) -> Graph:
+    def generator(self, base_path=None, resource_type=None) -> Iterator[Graph]:
         """
         Generator function that yields RDF graphs for each TTL file in the folder structure.
         If resource_type is specified, only yields graphs containing that resource type.
@@ -62,6 +63,7 @@ class TTLconnector:
             resource_type = self.resource_type
         ttl_files = self.iterate_folder_structure(base_path)
         for ttl_file in ttl_files:
+            self.file_path = ttl_file
             g = Graph()
             g.parse(ttl_file, format="turtle")
             if resource_type:

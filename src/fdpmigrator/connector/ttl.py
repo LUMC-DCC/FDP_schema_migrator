@@ -7,7 +7,7 @@ from rdflib import Graph, URIRef
 
 class TTLconnector:
     """This class provides methods to extract RDF graphs from TTL files and iterate through folder structures containing TTL files."""
-    def __init__(self, base_path: Path = None, file_path: Path = None, resource_type:URIRef = None):
+    def __init__(self, base_path: Path | None = None, file_path: Path | None = None, resource_type:URIRef = None):
         """
         Initializes the TTLExtractor with the given parameters.
 

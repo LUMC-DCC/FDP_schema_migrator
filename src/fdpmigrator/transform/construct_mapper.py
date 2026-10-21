@@ -1,7 +1,7 @@
 from pathlib import Path
 
 import yaml
-from rdflib import RDF, Graph
+from rdflib import RDF, Graph, URIRef
 
 with open("config/query_targets_lls.yaml") as target_file:
     query_targets = yaml.safe_load(target_file)["query_targets"]
@@ -9,11 +9,19 @@ with open("config/query_targets_lls.yaml") as target_file:
 query_folder = Path("SPARQL")
 
 class ConstructMapper:
-    def __init__(self, graph:Graph, construct_query:str | None = None, query_targets:dict | None = None, query_folder:Path = query_folder):
+    def __init__(
+        self,
+        graph: Graph,
+        construct_query: str | None = None,
+        query_targets: dict | None = None,
+        query_folder: Path = query_folder,
+        fdp_base_iri: str | None = None,
+    ):
         self.graph = graph
         self.construct_query = construct_query
         self.query_targets = query_targets
         self.query_folder = query_folder
+        self.fdp_base_iri = fdp_base_iri
 
     def get_query(self, query_name:str):
         with open(self.query_folder / f"{query_name}.rq", "r") as f:
@@ -45,6 +53,15 @@ class ConstructMapper:
                         break
                 if self.construct_query is not None:
                     break
-        result_graph += self.graph.query(self.construct_query)
+        if self.construct_query is not None and "?fdpBase" in self.construct_query:
+            if self.fdp_base_iri is None:
+                raise ValueError(
+                    "fdp_base_iri must be provided for SPARQL queries using ?fdpBase"
+                )
+            result_graph += self.graph.query(
+                self.construct_query,
+                initBindings={"fdpBase": URIRef(self.fdp_base_iri.rstrip("/"))},
+            )
+        else:
+            result_graph += self.graph.query(self.construct_query)
         return result_graph
-

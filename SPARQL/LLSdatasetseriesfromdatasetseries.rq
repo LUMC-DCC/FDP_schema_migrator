@@ -88,13 +88,13 @@ WHERE {
   ?dataset a dcat:DatasetSeries .
   BIND(?dataset AS ?sourcedataset)
 
-  BIND( IRI("https://fdp.lumc.nl/dataset/new")
-    AS ?dataset)
+  BIND( IRI(CONCAT(STR(?fdpBase), "/datasetseries/new"))
+    AS ?DatasetSeries)
 
   BIND(NOW() AS ?now)
 
   BIND(
-      IRI(CONCAT(STR(?dataset), "/organization/lumc"))
+      IRI(CONCAT(STR(?DatasetSeries), "/organization/lumc"))
       AS ?lumc
   )
 
@@ -132,7 +132,7 @@ WHERE {
       BIND(
           IRI(
               CONCAT(
-                  STR(?dataset),
+                  STR(?DatasetSeries),
                   "/attribution/",
                   ENCODE_FOR_URI(
                       REPLACE(
@@ -161,5 +161,46 @@ WHERE {
           a prov:Attribution ;
           prov:agent ?author ;
           dcat:hadRole ?role .
+    
+    OPTIONAL {
+        ?sourcedataset dcat:contactPoint ?contactPoint .
+
+        OPTIONAL {
+            ?contactPoint vcard:fn ?existingcontactName
+        }
+
+        OPTIONAL {
+            ?contactPoint vcard:hasEmail ?existingcontactEmail
+        }
+
+        OPTIONAL {
+            ?contactPoint vcard:hasURL ?existingcontactUrl
+        }
+    }
+
+    BIND(
+        COALESCE(
+            ?existingContactPoint,
+            IRI(CONCAT(STR(?DatasetSeries), "/contact-point"))
+        )
+        AS ?contactPoint
+    )
+
+    BIND(
+        COALESCE(?existingContactName, "Contact Address LLS")
+        AS ?contactName
+    )
+
+    BIND(
+        COALESCE(?existingContactEmail,
+                IRI("mailto:Datarequest_lls@lumc.nl"))
+        AS ?contactEmail
+    )
+
+    BIND(
+        COALESCE(?existingContactUrl,
+                IRI("https://leidenlangleven.nl/data-access/"))
+        AS ?contactUrl
+    )
   }
 }

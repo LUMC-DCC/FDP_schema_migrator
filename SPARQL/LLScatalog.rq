@@ -71,7 +71,7 @@ WHERE {
     BIND(NOW() AS ?now)
 
     BIND(
-    IRI("https://fdp.lumc.nl/catalog/new")
+    IRI(CONCAT(STR(?fdpBase), "/catalog/new"))
     AS ?catalog
     )
     

@@ -111,7 +111,8 @@ for datasetseries in TTL_connector.generator(base_path=Path("tests/data/fdp_file
     datasetseries_path = Path(TTL_connector.file_path)
     for dataset in TTL_connector.generator(base_path=datasetseries_path.parent, resource_type=str(DCAT.Dataset)):
         # datasetseries are datasets, we want to skip the one the datasets are currently under. #HACK this script assumes that there is only one level of datasetseries, if there are nested datasetseries this will not work. 
-        if dataset.value(predicate=DCTERMS.title) == datasetseries_graph.value(predicate=DCTERMS.title):
+        if dataset.value(subject=URIRef(series_url), predicate=DCTERMS.title) == updated_datasetseries_graph.value(subject=URIRef(series_url), predicate=DCTERMS.title):
+            print(f"skipping {dataset.value(subject=URIRef(series_url), predicate=DCTERMS.title)} dataset because it is the same as the datasetseries")
             continue
         dataset_query = {"LLSdataset": str(DCAT.Dataset)}
         CONSTRUCT_MAPPER = ConstructMapper(

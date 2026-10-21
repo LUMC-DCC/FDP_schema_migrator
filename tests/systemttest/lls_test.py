@@ -6,7 +6,7 @@ from meta2fdp.config.fdp.fdpconfig import FDPConfig
 from meta2fdp.fdp.fdpclient import FDPClient
 from meta2fdp.secrets.environmentprovider import EnvSecretsProvider
 from meta2fdp.secrets.keyringprovider import KeyringSecretsProvider
-from rdflib import DCAT, DCTERMS, Graph, URIRef
+from rdflib import DCAT, DCTERMS, Graph, URIRef, RDF
 
 from fdpmigrator.connector.ttl import TTLconnector
 from fdpmigrator.transform.construct_mapper import ConstructMapper
@@ -109,10 +109,9 @@ for datasetseries in TTL_connector.generator(base_path=Path("tests/data/fdp_file
     client.put_resource(series_url, updated_datasetseries_graph.serialize())
     client.publish_resource(series_url)
     datasetseries_path = Path(TTL_connector.file_path)
-    x = 0
     for dataset in TTL_connector.generator(base_path=datasetseries_path.parent, resource_type=str(DCAT.Dataset)):
-        if x == 0:
-            x += 1
+        # datasetseries are datasets, we want to skip the one the datasets are currently under. #HACK this script assumes that there is only one level of datasetseries, if there are nested datasetseries this will not work. 
+        if dataset.value(predicate=DCTERMS.title) == datasetseries_graph.value(predicate=DCTERMS.title):
             continue
         dataset_query = {"LLSdataset": str(DCAT.Dataset)}
         CONSTRUCT_MAPPER = ConstructMapper(
@@ -130,3 +129,4 @@ for datasetseries in TTL_connector.generator(base_path=Path("tests/data/fdp_file
         updated_dataset_graph = update_URIs(dataset, URIRef(fdp_config.URL + "/dataset/new"), dataset_url)
         client.put_resource(dataset_url, updated_dataset_graph.serialize())
         client.publish_resource(dataset_url)
+    

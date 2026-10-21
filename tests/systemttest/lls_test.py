@@ -6,7 +6,7 @@ from meta2fdp.config.fdp.fdpconfig import FDPConfig
 from meta2fdp.fdp.fdpclient import FDPClient
 from meta2fdp.secrets.environmentprovider import EnvSecretsProvider
 from meta2fdp.secrets.keyringprovider import KeyringSecretsProvider
-from rdflib import DCAT, DCTERMS, Graph, URIRef, RDF
+from rdflib import DCAT, DCTERMS, RDF, Graph, URIRef
 
 from fdpmigrator.connector.ttl import TTLconnector
 from fdpmigrator.transform.construct_mapper import ConstructMapper
@@ -130,4 +130,14 @@ for datasetseries in TTL_connector.generator(base_path=Path("tests/data/fdp_file
         updated_dataset_graph = update_URIs(dataset, URIRef(fdp_config.URL + "/dataset/new"), dataset_url)
         client.put_resource(dataset_url, updated_dataset_graph.serialize())
         client.publish_resource(dataset_url)
-    
+        # add reverse link from datasetseries to datasets
+        updated_datasetseries_graph.add((URIRef(series_url), DCAT.hasPart, URIRef(dataset_url)))
+        updated_nonagenarians_graph.add((URIRef(nonagenarians_url), DCAT.hasPart, URIRef(dataset_url)))
+    # update the datasetseries graph on the FDP with the new links to the datasets
+    client.put_resource(series_url, updated_datasetseries_graph.serialize())
+    client.publish_resource(series_url)
+
+# update the overarching datasetseries on the FDP representing the populations with the new links to the datasets
+client.put_resource(series_url, updated_datasetseries_graph.serialize())
+client.publish_resource(series_url)
+

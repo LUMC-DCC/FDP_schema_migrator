@@ -103,11 +103,11 @@ for datasetseries in TTL_connector.generator(base_path=Path("tests/data/fdp_file
     datasetseries_graph.add((URIRef(fdp_config.URL + "/datasetseries/new"), DCTERMS.isPartOf, URIRef(catalog_url)))
     #not sure if we need to refer to the overarching datasetseries representing the populations, but we do it for now
     datasetseries_graph.add((URIRef(fdp_config.URL + "/datasetseries/new"), DCAT.inSeries, URIRef(nonagenarians_url)))
-    print(f"uploading {datasetseries_graph.value(predicate=DCTERMS.title)} datasetseries")
     series_url = client.post_resource(datasetseries_graph.serialize(), "DatasetSeries")
     updated_datasetseries_graph = update_URIs(datasetseries_graph, URIRef(fdp_config.URL + "/datasetseries/new"), series_url)
     client.put_resource(series_url, updated_datasetseries_graph.serialize())
     client.publish_resource(series_url)
+    print(f"uploaded {updated_datasetseries_graph.value(subject=URIRef(series_url), predicate=DCTERMS.title)} datasetseries")
     datasetseries_path = Path(TTL_connector.file_path)
     for dataset in TTL_connector.generator(base_path=datasetseries_path.parent, resource_type=str(DCAT.Dataset)):
         # datasetseries are datasets, we want to skip the one the datasets are currently under. #HACK this script assumes that there is only one level of datasetseries, if there are nested datasetseries this will not work. 

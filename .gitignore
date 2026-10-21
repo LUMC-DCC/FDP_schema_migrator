@@ -220,3 +220,5 @@ __marimo__/
 # test output files
 tests/data/output/*
 
+tests/data/fdp_files/*
+tests/systemttest/.env.test

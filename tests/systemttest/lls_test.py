@@ -16,7 +16,7 @@ env_secrets_provider = EnvSecretsProvider(Path("tests\\systemttest\\.env.test"))
 fdp_config = FDPConfig(
     name="FDPClient",
     fdp_version="v1",
-    URL=env_secrets_provider.get_secret("FDP_BASE_URL"),
+    URL=env_secrets_provider.get_info("FDP_BASE_URL"),
     environmentprovider=EnvSecretsProvider(Path("tests\\systemttest\\.env.test")),
     keyringprovider=KeyringSecretsProvider(),
 )

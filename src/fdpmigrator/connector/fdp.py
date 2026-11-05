@@ -7,6 +7,7 @@ Based on: https://github.com/KarolisCremers/FDP-extractor/blob/450f23ca00c021344
 
 import os
 import re
+from pathlib import Path
 
 import requests
 from rdflib import Graph, URIRef
@@ -52,7 +53,7 @@ class FDPConnector:
         SELECT ?o WHERE {
         ?url dcterms:title ?o .
         }"""
-        result = graph.query(query, initBindings={"url": url})
+        result = graph.query(query, initBindings={"url": URIRef(url)})
         return re.sub(r"\W+", "", str(result.bindings[0]["o"]))
 
     def write_to_disk(self, graph, url, directory):
@@ -85,17 +86,17 @@ class FDPConnector:
             if uri == "https://w3id.org/fdp/fdp-o#FAIRDataPoint":
                 # The root must be anchored to the configured output folder;
                 # child resources are appended to the path supplied by the parent.
-                current_path = os.path.join(
+                current_path = Path(os.path.join(
                     self.working_directory,
                     "FDP_" + self.get_title(graph, url).rstrip(" ").replace(" ", "_"),
-                )
+                ))
                 break
             if uri not in self.ignore:
                 # FDP vocabularies use both '#' and '/' to separate the local
                 # type name, so support either form when making a directory.
                 resource_type = uri.rsplit("#", 1)[-1].rsplit("/", 1)[-1]
                 directory_name = resource_type + "_" + self.get_title(graph, url).replace(" ", "_")
-                current_path = os.path.join(path, directory_name)
+                current_path = Path(os.path.join(path, directory_name))
         os.makedirs(current_path, exist_ok=True)
         return current_path
 
@@ -110,10 +111,10 @@ class FDPConnector:
         https://github.com/fdp-specs/fdp-specs.github.io/blob/5e122bf192b431afe5034c71379f8522e1cbb227/src/metadata.md?plain=1#L38-L46 .
         """
         print(f"querying: {url}")
-        resource_url = URIRef(url)
+        resource_url = str(url)
         # URIRef keeps RDF URLs distinct from ordinary string literals while
         # still allowing them to be interpolated into the HTTP request URL.
-        response = requests.get(f"{resource_url}/?format=ttl")
+        response = requests.get(f"{resource_url}?format=ttl")
         if response.text == "You are not allow to view this record in state DRAFT":
             # The API exposes this response as text instead of usable RDF.
             # Skipping it avoids a parse failure and preserves other branches.

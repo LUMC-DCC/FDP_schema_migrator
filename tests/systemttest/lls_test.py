@@ -17,7 +17,7 @@ fdp_config = FDPConfig(
     name="FDPClient",
     fdp_version="v1",
     URL=env_secrets_provider.get_info("FDP_BASE_URL"),
-    environmentprovider=EnvSecretsProvider(Path("tests\\systemttest\\.env.test")),
+    environmentprovider=env_secrets_provider,
     keyringprovider=KeyringSecretsProvider(),
 )
 
@@ -72,72 +72,77 @@ client.put_resource(catalog_url, updated_catalog_graph.serialize())
 client.publish_resource(catalog_url)
 
 # here we map the overarching datasetseries representing the populations and then we map the datasetseries representing the individual studies, we link them to the catalog and then we link the datasets to the datasetseries of populations and the studies.
-# Nonagenerians
-with open("tests/data/fdp_files/FDP_LUMCFAIRDataPoint/Catalog_LeidenLongevityStudy/Catalog_Nonagenarians/Nonagenarians.ttl") as datasetseries_file:
-    nonagenarians_graph = Graph().parse(datasetseries_file)
-catalog_datasetseries_query = {"LLSdatasetseriesfromcatalog": str(DCAT.Catalog)}
-CONSTRUCT_MAPPER = ConstructMapper(
-    graph=nonagenarians_graph,
-    query_targets=catalog_datasetseries_query,
-    query_folder=Path("SPARQL"),
-    fdp_base_iri=fdp_config.URL,
-)
-nonagenarians_graph = CONSTRUCT_MAPPER.apply()
-nonagenarians_graph.add((URIRef(fdp_config.URL + "/datasetseries/new"), DCTERMS.isPartOf, URIRef(catalog_url)))
-print("uploading Nonagenarians datasetseries")
-nonagenarians_url = client.post_resource(nonagenarians_graph.serialize(), "DatasetSeries")
-updated_nonagenarians_graph = update_URIs(nonagenarians_graph, URIRef(fdp_config.URL + "/datasetseries/new"), nonagenarians_url)
-client.put_resource(nonagenarians_url, updated_nonagenarians_graph.serialize())
-client.publish_resource(nonagenarians_url)
 
-# for every datasetseries in the Nonagenarians folder, we map the datasets and link them to the datasetseries and then we link the datasetseries to the catalog
-for datasetseries in TTL_connector.generator(base_path=Path("tests/data/fdp_files/FDP_LUMCFAIRDataPoint/Catalog_LeidenLongevityStudy/Catalog_Nonagenarians/"), resource_type=str(DCAT.DatasetSeries)):
-    datasetseries_query = {"LLSdatasetseriesfromdatasetseries": str(DCAT.DatasetSeries)}
+# Nonagenerians and partneroffspring
+catalog_dataseries_list = ["tests/data/fdp_files/FDP_LUMCFAIRDataPoint/Catalog_LeidenLongevityStudy/Catalog_Nonagenarians/Nonagenarians.ttl", "tests/data/fdp_files/FDP_LUMCFAIRDataPoint/Catalog_LeidenLongevityStudy/Catalog_PartnerOffspring/PartnerOffspring.ttl"]
+for catalog_datasetseries_path in catalog_dataseries_list:
+    with open(catalog_datasetseries_path) as datasetseries_file:
+        catalog_datasetseries_graph = Graph().parse(datasetseries_file)
+    catalog_datasetseries_query = {"LLSdatasetseriesfromcatalog": str(DCAT.Catalog)}
     CONSTRUCT_MAPPER = ConstructMapper(
-        graph=datasetseries,
-        query_targets=datasetseries_query,
+        graph=catalog_datasetseries_graph,
+        query_targets=catalog_datasetseries_query,
         query_folder=Path("SPARQL"),
         fdp_base_iri=fdp_config.URL,
     )
-    datasetseries_graph = CONSTRUCT_MAPPER.apply()
-    datasetseries_graph.add((URIRef(fdp_config.URL + "/datasetseries/new"), DCTERMS.isPartOf, URIRef(catalog_url)))
-    #not sure if we need to refer to the overarching datasetseries representing the populations, but we do it for now
-    datasetseries_graph.add((URIRef(fdp_config.URL + "/datasetseries/new"), DCAT.inSeries, URIRef(nonagenarians_url)))
-    series_url = client.post_resource(datasetseries_graph.serialize(), "DatasetSeries")
-    updated_datasetseries_graph = update_URIs(datasetseries_graph, URIRef(fdp_config.URL + "/datasetseries/new"), series_url)
-    client.put_resource(series_url, updated_datasetseries_graph.serialize())
-    client.publish_resource(series_url)
-    print(f"uploaded {updated_datasetseries_graph.value(subject=URIRef(series_url), predicate=DCTERMS.title)} datasetseries")
-    datasetseries_path = Path(TTL_connector.file_path)
-    for dataset in TTL_connector.generator(base_path=datasetseries_path.parent, resource_type=str(DCAT.Dataset)):
-        # datasetseries are datasets, we want to skip the one the datasets are currently under. #HACK this script assumes that there is only one level of datasetseries, if there are nested datasetseries this will not work. 
-        if dataset.value(subject=URIRef(series_url), predicate=DCTERMS.title) == updated_datasetseries_graph.value(subject=URIRef(series_url), predicate=DCTERMS.title):
-            print(f"skipping {dataset.value(subject=URIRef(series_url), predicate=DCTERMS.title)} dataset because it is the same as the datasetseries")
-            continue
-        dataset_query = {"LLSdataset": str(DCAT.Dataset)}
+    catalog_datasetseries_graph = CONSTRUCT_MAPPER.apply()
+    catalog_datasetseries_graph.add((URIRef(fdp_config.URL + "/datasetseries/new"), DCTERMS.isPartOf, URIRef(catalog_url)))
+    print("uploading Nonagenarians datasetseries")
+    catalog_datasetseries_url = client.post_resource(catalog_datasetseries_graph.serialize(), "DatasetSeries")
+    updated_catalog_datasetseries_graph = update_URIs(catalog_datasetseries_graph, URIRef(fdp_config.URL + "/datasetseries/new"), catalog_datasetseries_url)
+    client.put_resource(catalog_datasetseries_url, updated_catalog_datasetseries_graph.serialize())
+    client.publish_resource(catalog_datasetseries_url)
+
+    # for every datasetseries in the Nonagenarians folder, we map the datasets and link them to the datasetseries and then we link the datasetseries to the catalog
+    catalog_datasetseries_path = Path(catalog_datasetseries_path)
+    for datasetseries in TTL_connector.generator(base_path=catalog_datasetseries_path.parent, resource_type=str(DCAT.DatasetSeries)):
+        datasetseries_query = {"LLSdatasetseriesfromdatasetseries": str(DCAT.DatasetSeries)}
         CONSTRUCT_MAPPER = ConstructMapper(
-            graph=dataset,
-            query_targets=dataset_query,
+            graph=datasetseries,
+            query_targets=datasetseries_query,
             query_folder=Path("SPARQL"),
             fdp_base_iri=fdp_config.URL,
         )
-        dataset = CONSTRUCT_MAPPER.apply()
-        dataset.add((URIRef(fdp_config.URL + "/dataset/new"), DCAT.inSeries, URIRef(nonagenarians_url)))
-        dataset.add((URIRef(fdp_config.URL + "/dataset/new"), DCAT.inSeries, URIRef(series_url)))
-        dataset.add((URIRef(fdp_config.URL + "/dataset/new"), DCTERMS.isPartOf, URIRef(catalog_url)))
-        print("uploading dataset")
-        dataset_url = client.post_resource(dataset.serialize(), "dataset")
-        updated_dataset_graph = update_URIs(dataset, URIRef(fdp_config.URL + "/dataset/new"), dataset_url)
-        client.put_resource(dataset_url, updated_dataset_graph.serialize())
-        client.publish_resource(dataset_url)
-        # add reverse link from datasetseries to datasets
-        updated_datasetseries_graph.add((URIRef(series_url), DCAT.hasPart, URIRef(dataset_url)))
-        updated_nonagenarians_graph.add((URIRef(nonagenarians_url), DCAT.hasPart, URIRef(dataset_url)))
-    # update the datasetseries graph on the FDP with the new links to the datasets
-    client.put_resource(series_url, updated_datasetseries_graph.serialize())
-    client.publish_resource(series_url)
+        datasetseries_graph = CONSTRUCT_MAPPER.apply()
+        datasetseries_graph.add((URIRef(fdp_config.URL + "/datasetseries/new"), DCTERMS.isPartOf, URIRef(catalog_url)))
+        #not sure if we need to refer to the overarching datasetseries representing the populations, but we do it for now
+        datasetseries_graph.add((URIRef(fdp_config.URL + "/datasetseries/new"), DCAT.inSeries, URIRef(catalog_datasetseries_url)))
+        series_url = client.post_resource(datasetseries_graph.serialize(), "DatasetSeries")
+        updated_datasetseries_graph = update_URIs(datasetseries_graph, URIRef(fdp_config.URL + "/datasetseries/new"), series_url)
+        client.put_resource(series_url, updated_datasetseries_graph.serialize())
+        client.publish_resource(series_url)
+        print(f"uploaded {updated_datasetseries_graph.value(subject=URIRef(series_url), predicate=DCTERMS.title)} datasetseries")
+        datasetseries_path = Path(TTL_connector.file_path)
+        for dataset in TTL_connector.generator(base_path=datasetseries_path.parent, resource_type=str(DCAT.Dataset)):
+            # datasetseries are datasets, we want to skip the one the datasets are currently under. #HACK this script assumes that there is only one level of datasetseries, if there are nested datasetseries this will not work. 
+            if dataset.value(subject=URIRef(series_url), predicate=DCTERMS.title) == updated_datasetseries_graph.value(subject=URIRef(series_url), predicate=DCTERMS.title):
+                print(f"skipping {dataset.value(subject=URIRef(series_url), predicate=DCTERMS.title)} dataset because it is the same as the datasetseries")
+                continue
+            dataset_query = {"LLSdataset": str(DCAT.Dataset)}
+            CONSTRUCT_MAPPER = ConstructMapper(
+                graph=dataset,
+                query_targets=dataset_query,
+                query_folder=Path("SPARQL"),
+                fdp_base_iri=fdp_config.URL,
+            )
+            dataset = CONSTRUCT_MAPPER.apply()
+            dataset.add((URIRef(fdp_config.URL + "/dataset/new"), DCAT.inSeries, URIRef(catalog_datasetseries_url)))
+            dataset.add((URIRef(fdp_config.URL + "/dataset/new"), DCAT.inSeries, URIRef(series_url)))
+            dataset.add((URIRef(fdp_config.URL + "/dataset/new"), DCTERMS.isPartOf, URIRef(catalog_url)))
+            print("uploading dataset")
+            dataset_url = client.post_resource(dataset.serialize(), "dataset")
+            updated_dataset_graph = update_URIs(dataset, URIRef(fdp_config.URL + "/dataset/new"), dataset_url)
+            client.put_resource(dataset_url, updated_dataset_graph.serialize())
+            client.publish_resource(dataset_url)
+            # add reverse link from datasetseries to datasets
+            updated_datasetseries_graph.add((URIRef(series_url), DCTERMS.hasPart, URIRef(dataset_url)))
+            updated_catalog_datasetseries_graph.add((URIRef(catalog_datasetseries_url), DCTERMS.hasPart, URIRef(dataset_url)))
+        # update the datasetseries graph on the FDP with the new links to the datasets
+        client.put_resource(series_url, updated_datasetseries_graph.serialize())
+        client.publish_resource(series_url)
 
-# update the overarching datasetseries on the FDP representing the populations with the new links to the datasets
-client.put_resource(series_url, updated_datasetseries_graph.serialize())
-client.publish_resource(series_url)
+    # update the overarching datasetseries on the FDP representing the populations with the new links to the datasets
+    client.put_resource(catalog_datasetseries_url, updated_catalog_datasetseries_graph.serialize())
+    client.publish_resource(catalog_datasetseries_url)
+
 
